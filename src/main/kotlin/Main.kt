@@ -67,7 +67,7 @@ fun main() = application {
                             image.value = rand.image
                             url.value = rand.url
                             imageBitmap.value = rand.imageBitmap
-                        }catch (e: URLParserException){
+                        }catch (e: Exception){
                             image.value = defaultImage
                             url.value = ""
                             imageBitmap.value = null
