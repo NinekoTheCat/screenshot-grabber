@@ -32,6 +32,7 @@ import com.tfowl.ktor.client.features.JsoupFeature
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,9 +52,14 @@ fun main() = application {
                 randomScreenshotButton(url = url.value, randomImage = {
                     it.launch(Dispatchers.IO) {
                         buttonVisible.value = false
-                        val rand = getRandomImage()
-                        image.value = rand.image
-                        url.value = rand.url
+                        try {
+                            val rand = getRandomImage()
+                            image.value = rand.image
+                            url.value = rand.url
+                        }catch (e: URLParserException){
+                            image.value = defaultImage
+                            url.value = ""
+                        }
                         buttonVisible.value = true
                     }
                 }, buttonVisible = buttonVisible.value)
